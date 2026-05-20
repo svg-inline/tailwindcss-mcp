@@ -56,6 +56,7 @@ A busca não depende só da ordem interna do FTS. O MCP usa uma estratégia híb
    - título exato ou começando pelo termo;
    - frase completa no título, descrição ou conteúdo;
    - quantidade de termos encontrados em slug/título/descrição/conteúdo;
+   - sequências contíguas dos termos da query em slug/título;
    - sinônimos de domínio;
    - intenções conhecidas de Tailwind.
 
@@ -68,7 +69,7 @@ Exemplos de melhorias esperadas:
 | `flex grid responsive`              | `responsive-design`, `grid-template-columns`, `flex` |
 | `custom CSS variables theme tokens` | `adding-custom-styles`, `theme`                      |
 
-Também há sugestão de slugs similares para `get_tailwind_doc_page`, usando tokens e distância de Levenshtein com score mínimo. Isso evita sugestões ruins baseadas em uma única letra.
+Também há sugestão de slugs similares para `get_tailwind_doc_page`, usando tokens e distância de Levenshtein com score mínimo. Em entradas com vários tokens, a sugestão precisa ter pelo menos dois tokens compatíveis ou similaridade alta, evitando sugestões ruins baseadas em uma única letra ou palavra solta.
 
 ---
 

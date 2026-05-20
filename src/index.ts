@@ -67,21 +67,26 @@ function similarityScore(input: string, page: any): number {
   const pageTitle = normalizeSlugText(page.title || page.label || "");
   const queryTokens = slugTokens(input);
   const pageTokens = new Set([...slugTokens(pageSlug), ...slugTokens(pageTitle)]);
+  const distance = levenshteinDistance(querySlug, pageSlug);
+  const maxLength = Math.max(querySlug.length, pageSlug.length, 1);
+  const similarity = 1 - distance / maxLength;
 
   let score = 0;
+  let tokenMatches = 0;
 
   if (pageSlug === querySlug) score += 1000;
   if (pageSlug.startsWith(querySlug)) score += 240;
   if (querySlug.length >= 4 && pageSlug.includes(querySlug)) score += 160;
 
   for (const token of queryTokens) {
-    if (pageTokens.has(token)) score += 80;
+    if (pageTokens.has(token)) {
+      tokenMatches++;
+      score += 80;
+    }
   }
 
-  const distance = levenshteinDistance(querySlug, pageSlug);
-  const maxLength = Math.max(querySlug.length, pageSlug.length, 1);
-  const similarity = 1 - distance / maxLength;
   if (similarity >= 0.58) score += Math.round(similarity * 140);
+  if (queryTokens.length >= 2 && tokenMatches < 2 && similarity < 0.58) return 0;
 
   return score;
 }

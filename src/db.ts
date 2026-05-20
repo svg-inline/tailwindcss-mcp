@@ -323,6 +323,44 @@ function countFieldTermMatches(field: string, terms: string[]): number {
   return matches;
 }
 
+function longestContiguousQueryRun(field: string, queryTerms: string[]) {
+  const fieldTerms = tokenize(field);
+  let bestLength = 0;
+  let bestStart = queryTerms.length;
+
+  for (let fieldIndex = 0; fieldIndex < fieldTerms.length; fieldIndex++) {
+    for (let queryIndex = 0; queryIndex < queryTerms.length; queryIndex++) {
+      let length = 0;
+      while (
+        fieldTerms[fieldIndex + length] &&
+        fieldTerms[fieldIndex + length] === queryTerms[queryIndex + length]
+      ) {
+        length++;
+      }
+
+      if (
+        length > bestLength ||
+        (length === bestLength && length > 0 && queryIndex < bestStart)
+      ) {
+        bestLength = length;
+        bestStart = queryIndex;
+      }
+    }
+  }
+
+  return { length: bestLength, start: bestStart };
+}
+
+function scoreContiguousQueryRun(field: string, queryTerms: string[], weight: number): number {
+  if (queryTerms.length < 2) return 0;
+
+  const run = longestContiguousQueryRun(field, queryTerms);
+  if (run.length < 2) return 0;
+
+  const earlierRunBoost = Math.max(0, queryTerms.length - run.start) * 20;
+  return run.length * weight + earlierRunBoost;
+}
+
 function scoreSearchCandidate(candidate: SearchCandidate, query: string): number {
   const normalizedQuery = normalizeSearchText(query);
   const originalTerms = uniqueTerms(tokenize(query));
@@ -363,6 +401,9 @@ function scoreSearchCandidate(candidate: SearchCandidate, query: string): number
   score += descriptionMatches * 45;
   score += sectionMatches * 30;
   score += contentMatches * 8;
+  score += scoreContiguousQueryRun(slugText, originalTerms, 90);
+  score += scoreContiguousQueryRun(title, originalTerms, 70);
+  score += scoreContiguousQueryRun(label, originalTerms, 45);
 
   const importantMatches = new Set<string>();
   for (const term of originalTerms) {
