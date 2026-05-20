@@ -3,3 +3,8 @@ dist/
 data/
 *.js.map
 .env
+.env.*
+.DS_Store
+coverage/
+npm-debug.log*
+yarn-error.log*

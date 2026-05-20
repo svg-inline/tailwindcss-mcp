@@ -93,7 +93,7 @@ pages_fts USING fts4(slug, label, title, description, content)
 
 ### Responsabilidades
 
-- Carrega e deduplica URLs do `urls.json`
+- Carrega e deduplica URLs do `src/urls.json`
 - Faz fetch HTTP de cada página com Axios
 - Extrai título, descrição e conteúdo textual com Cheerio
 - Infere a seção com `inferSection()` via mapeamento de RegExp

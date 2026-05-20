@@ -99,7 +99,7 @@ Exemplo para `mcp.json` no Windows:
     "tailwindcss": {
       "command": "node",
       "args": [
-        "C:\\Users\\<my-user>\\Downloads\\tailwindcss-mcp-v2\\tailwindcss-mcp\\dist\\index.js"
+        "C:\\path\\to\\tailwindcss-mcp\\dist\\index.js"
       ]
     }
   }
@@ -114,7 +114,7 @@ Se o seu cliente usa o formato `mcpServers`, use:
     "tailwindcss": {
       "command": "node",
       "args": [
-        "C:\\Users\\<my-user>\\Downloads\\tailwindcss-mcp-v2\\tailwindcss-mcp\\dist\\index.js"
+        "C:\\path\\to\\tailwindcss-mcp\\dist\\index.js"
       ]
     }
   }
@@ -276,7 +276,7 @@ src/
   crawler.ts     # Crawl, extração de conteúdo, seções e revalidação por SHA
   db.ts          # SQLite/sql.js, schema, busca, excerpts e ranker
   cli-crawl.ts   # CLI para crawl manual
-  urls.json      # Lista de URLs da documentação
+  urls.json      # Lista de URLs da documentação, copiada para dist/ no build
 
 data/
   tailwind.db    # Banco SQLite local gerado pelo crawler
