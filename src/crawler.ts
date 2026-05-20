@@ -45,18 +45,21 @@ export function inferSection(label: string, slug: string): string {
     // \border\b garante match apenas em "order" isolado, não em "b|order|-*"
     [/flex|\border\b|grid|gap|justify|align|place/i, "Flexbox & Grid"],
     [/padding|margin/i, "Spacing"],
-    // Typography antes de Sizing: evita "font-size" e "line-height" casarem com Sizing
-    [/font|letter.spacing|line.clamp|line.height|list.style|text.|vertical.align|whitespace|word.break|hyphens|content/i, "Typography"],
-    [/width|height|inline.size|block.size|size/i, "Sizing"],
-    [/background|gradient/i, "Backgrounds"],
-    [/box.shadow|text.shadow|opacity|mix.blend|background.blend/i, "Effects"],
-    [/mask/i, "Masks"],
+    // Backdrop antes de Effects/Filters: evita "backdrop-filter-opacity" cair em Effects por "opacity"
     [/backdrop/i, "Backdrop Filters"],
+    // Effects antes de Typography/Backgrounds: text-shadow e background-blend-mode pertencem a Effects
+    [/box.shadow|text.shadow|opacity|mix.blend|background.blend/i, "Effects"],
+    // Masks, Interactivity, SVG, Typography e Backgrounds antes de Sizing:
+    // evita "*-size", "*-width" e "*-height" caírem na seção genérica de dimensões.
+    [/mask/i, "Masks"],
     [/filter|blur|brightness|contrast|drop.shadow|grayscale|hue.rotate|invert|saturate|sepia/i, "Filters"],
     [/transition|animation|backface|perspective/i, "Transitions & Animation"],
     [/rotate|scale|skew|transform|translate|zoom/i, "Transforms"],
     [/accent|appearance|caret|color.scheme|cursor|field.sizing|pointer.events|resize|scroll|touch.action|user.select|will.change/i, "Interactivity"],
     [/fill|stroke/i, "SVG"],
+    [/font|letter.spacing|line.clamp|line.height|list.style|text.|tab.size|vertical.align|whitespace|word.break|hyphens|content|^color$/i, "Typography"],
+    [/background|gradient/i, "Backgrounds"],
+    [/width|height|inline.size|block.size|size/i, "Sizing"],
     [/forced.color|screen.reader/i, "Accessibility"],
   ];
 
