@@ -1,10 +1,10 @@
 import axios from "axios";
 import * as cheerio from "cheerio";
-import { upsertPage, getMeta, setMeta, getPageCount, saveDb } from "./db.js";
+import { getMeta, getPageCount, saveDb, setMeta, upsertPage } from "./db.js";
 
 // Carrega as URLs do arquivo gerado pelo usuário
 import { createRequire } from "module";
-import { dirname, join } from "path";
+import { dirname } from "path";
 import { fileURLToPath } from "url";
 
 const require = createRequire(import.meta.url);
@@ -35,15 +35,24 @@ function slugFromUrl(url: string): string {
 export function inferSection(label: string, slug: string): string {
   const sectionMap: [RegExp, string][] = [
     [/installation|editor.setup|compatibility|upgrade/i, "Getting Started"],
-    [/styling.with|hover.focus|responsive|dark.mode|theme.variables|colors|adding.custom|detecting.classes|functions.and.directives|preflight/i, "Core Concepts"],
-    [/aspect.ratio|columns|break|box.decoration|box.sizing|display|float|clear|isolation|object.fit|object.position|overflow|overscroll|position|top.right|visibility|z.index/i, "Layout"],
+    [
+      /styling.with|hover.focus|responsive|dark.mode|theme.variables|colors|adding.custom|detecting.classes|functions.and.directives|preflight/i,
+      "Core Concepts",
+    ],
+    [
+      /aspect.ratio|columns|break|box.decoration|box.sizing|display|float|clear|isolation|object.fit|object.position|overflow|overscroll|position|top.right|visibility|z.index/i,
+      "Layout",
+    ],
     // Tables antes de Borders: border-collapse e border-spacing devem ir para Tables
     [/border.collapse|border.spacing|table.layout|caption/i, "Tables"],
     // Borders antes de Flexbox & Grid: evita "border" casar com "order" (substring)
     // Borders antes de Sizing: evita "outline-width" e "border-width" casarem com "width"
     [/border|outline|divide|ring/i, "Borders"],
-    // \border\b garante match apenas em "order" isolado, não em "b|order|-*"
-    [/flex|\border\b|grid|gap|justify|align|place/i, "Flexbox & Grid"],
+    // align-content|align-items|align-self evitam match em text-align, vertical-align, scroll-snap-align
+    [
+      /flex|\border\b|grid|gap|justify|align-content|align-items|align-self|place/i,
+      "Flexbox & Grid",
+    ],
     [/padding|margin/i, "Spacing"],
     // Backdrop antes de Effects/Filters: evita "backdrop-filter-opacity" cair em Effects por "opacity"
     [/backdrop/i, "Backdrop Filters"],
@@ -52,12 +61,21 @@ export function inferSection(label: string, slug: string): string {
     // Masks, Interactivity, SVG, Typography e Backgrounds antes de Sizing:
     // evita "*-size", "*-width" e "*-height" caírem na seção genérica de dimensões.
     [/mask/i, "Masks"],
-    [/filter|blur|brightness|contrast|drop.shadow|grayscale|hue.rotate|invert|saturate|sepia/i, "Filters"],
+    [
+      /filter|blur|brightness|contrast|drop.shadow|grayscale|hue.rotate|invert|saturate|sepia/i,
+      "Filters",
+    ],
     [/transition|animation|backface|perspective/i, "Transitions & Animation"],
     [/rotate|scale|skew|transform|translate|zoom/i, "Transforms"],
-    [/accent|appearance|caret|color.scheme|cursor|field.sizing|pointer.events|resize|scroll|touch.action|user.select|will.change/i, "Interactivity"],
+    [
+      /accent|appearance|caret|color.scheme|cursor|field.sizing|pointer.events|resize|scroll|touch.action|user.select|will.change/i,
+      "Interactivity",
+    ],
     [/fill|stroke/i, "SVG"],
-    [/font|letter.spacing|line.clamp|line.height|list.style|text.|tab.size|vertical.align|whitespace|word.break|hyphens|content|^color$/i, "Typography"],
+    [
+      /font|letter.spacing|line.clamp|line.height|list.style|text.|tab.size|vertical.align|whitespace|word.break|hyphens|content|^color$/i,
+      "Typography",
+    ],
     [/background|gradient/i, "Backgrounds"],
     [/width|height|inline.size|block.size|size/i, "Sizing"],
     [/forced.color|screen.reader/i, "Accessibility"],
@@ -69,7 +87,8 @@ export function inferSection(label: string, slug: string): string {
   return "Other";
 }
 
-const GITHUB_API = "https://api.github.com/repos/tailwindlabs/tailwindcss.com/commits";
+const GITHUB_API =
+  "https://api.github.com/repos/tailwindlabs/tailwindcss.com/commits";
 const CHECK_INTERVAL_MS = 1000 * 60 * 60; // 1 hora entre checks de SHA
 
 function normalizeContent(rawContent: string): string {
@@ -120,7 +139,8 @@ export async function fetchPage(entry: UrlEntry): Promise<{
       headers: {
         "User-Agent":
           "Mozilla/5.0 (Macintosh; Intel Mac OS X 10_15_7) AppleWebKit/537.36 (KHTML, like Gecko) Chrome/124.0.0.0 Safari/537.36",
-        Accept: "text/html,application/xhtml+xml,application/xml;q=0.9,*/*;q=0.8",
+        Accept:
+          "text/html,application/xhtml+xml,application/xml;q=0.9,*/*;q=0.8",
         "Accept-Language": "en-US,en;q=0.9",
         "Cache-Control": "no-cache",
       },
@@ -131,7 +151,10 @@ export async function fetchPage(entry: UrlEntry): Promise<{
 
     const title =
       $("h1").first().text().trim() ||
-      $("title").text().replace(/\s*[-–|].*$/, "").trim() ||
+      $("title")
+        .text()
+        .replace(/\s*[-–|].*$/, "")
+        .trim() ||
       entry.label;
 
     const description =
@@ -154,7 +177,7 @@ export async function fetchPage(entry: UrlEntry): Promise<{
         "[aria-hidden='true']",
         ".not-prose",
         "[data-rehype-pretty-code-fragment] ~ *",
-      ].join(", ")
+      ].join(", "),
     ).remove();
 
     const rawContent =
@@ -181,10 +204,12 @@ export async function fetchPage(entry: UrlEntry): Promise<{
 }
 
 // Crawl completo de todas as URLs
-export async function crawlAll(opts: {
-  concurrency?: number;
-  onProgress?: (done: number, total: number, slug: string) => void;
-} = {}) {
+export async function crawlAll(
+  opts: {
+    concurrency?: number;
+    onProgress?: (done: number, total: number, slug: string) => void;
+  } = {},
+) {
   const { concurrency = 3, onProgress } = opts;
   const urls = loadUrls();
   let done = 0;
@@ -244,7 +269,9 @@ export async function revalidateIfNeeded(): Promise<{
   }
 
   // SHA diferente ou banco vazio → recrawla
-  console.error(`[crawler] Revalidando: ${cachedSha?.slice(0, 7) ?? "vazio"} → ${remoteSha.slice(0, 7)}`);
+  console.error(
+    `[crawler] Revalidando: ${cachedSha?.slice(0, 7) ?? "vazio"} → ${remoteSha.slice(0, 7)}`,
+  );
   await crawlAll({ concurrency: 3 });
 
   return { status: "revalidated", sha: remoteSha };
