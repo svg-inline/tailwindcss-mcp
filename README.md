@@ -61,12 +61,12 @@ A busca não depende só da ordem interna do FTS. O MCP usa uma estratégia híb
 
 Exemplos de melhorias esperadas:
 
-| Query | Resultado esperado |
-|---|---|
-| `animation` | `animation` em primeiro |
-| `dark mode` | `dark-mode` em primeiro |
-| `flex grid responsive` | `responsive-design`, `grid-template-columns`, `flex` |
-| `custom CSS variables theme tokens` | `adding-custom-styles`, `theme` |
+| Query                               | Resultado esperado                                   |
+| ----------------------------------- | ---------------------------------------------------- |
+| `animation`                         | `animation` em primeiro                              |
+| `dark mode`                         | `dark-mode` em primeiro                              |
+| `flex grid responsive`              | `responsive-design`, `grid-template-columns`, `flex` |
+| `custom CSS variables theme tokens` | `adding-custom-styles`, `theme`                      |
 
 Também há sugestão de slugs similares para `get_tailwind_doc_page`, usando tokens e distância de Levenshtein com score mínimo. Isso evita sugestões ruins baseadas em uma única letra.
 
@@ -98,7 +98,7 @@ Exemplo para `mcp.json` no Windows:
     "tailwindcss": {
       "command": "node",
       "args": [
-        "C:\\Users\\victo\\Downloads\\tailwindcss-mcp-v2\\tailwindcss-mcp\\dist\\index.js"
+        "C:\\Users\\<my-user>\\Downloads\\tailwindcss-mcp-v2\\tailwindcss-mcp\\dist\\index.js"
       ]
     }
   }
@@ -113,7 +113,7 @@ Se o seu cliente usa o formato `mcpServers`, use:
     "tailwindcss": {
       "command": "node",
       "args": [
-        "C:\\Users\\victo\\Downloads\\tailwindcss-mcp-v2\\tailwindcss-mcp\\dist\\index.js"
+        "C:\\Users\\<my-user>\\Downloads\\tailwindcss-mcp-v2\\tailwindcss-mcp\\dist\\index.js"
       ]
     }
   }
