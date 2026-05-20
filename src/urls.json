@@ -1,0 +1,822 @@
+[
+  {
+    "label": "Documentation",
+    "url": "https://tailwindcss.com/docs/installation"
+  },
+  {
+    "label": "Components",
+    "url": "https://tailwindcss.com/plus/ui-blocks?ref=sidebar"
+  },
+  {
+    "label": "Templates",
+    "url": "https://tailwindcss.com/plus/templates?ref=sidebar"
+  },
+  {
+    "label": "UI Kit",
+    "url": "https://tailwindcss.com/plus/ui-kit?ref=sidebar"
+  },
+  {
+    "label": "Playground",
+    "url": "https://play.tailwindcss.com/"
+  },
+  {
+    "label": "CourseNew",
+    "url": "https://tailwindcss.com/build-uis-that-dont-suck"
+  },
+  {
+    "label": "Community",
+    "url": "https://tailwindcss.com/insiders"
+  },
+  {
+    "label": "Installation",
+    "url": "https://tailwindcss.com/docs/installation"
+  },
+  {
+    "label": "Editor setup",
+    "url": "https://tailwindcss.com/docs/editor-setup"
+  },
+  {
+    "label": "Compatibility",
+    "url": "https://tailwindcss.com/docs/compatibility"
+  },
+  {
+    "label": "Upgrade guide",
+    "url": "https://tailwindcss.com/docs/upgrade-guide"
+  },
+  {
+    "label": "Styling with utility classes",
+    "url": "https://tailwindcss.com/docs/styling-with-utility-classes"
+  },
+  {
+    "label": "Hover, focus, and other states",
+    "url": "https://tailwindcss.com/docs/hover-focus-and-other-states"
+  },
+  {
+    "label": "Responsive design",
+    "url": "https://tailwindcss.com/docs/responsive-design"
+  },
+  {
+    "label": "Dark mode",
+    "url": "https://tailwindcss.com/docs/dark-mode"
+  },
+  {
+    "label": "Theme variables",
+    "url": "https://tailwindcss.com/docs/theme"
+  },
+  {
+    "label": "Colors",
+    "url": "https://tailwindcss.com/docs/colors"
+  },
+  {
+    "label": "Adding custom styles",
+    "url": "https://tailwindcss.com/docs/adding-custom-styles"
+  },
+  {
+    "label": "Detecting classes in source files",
+    "url": "https://tailwindcss.com/docs/detecting-classes-in-source-files"
+  },
+  {
+    "label": "Functions and directives",
+    "url": "https://tailwindcss.com/docs/functions-and-directives"
+  },
+  {
+    "label": "Preflight",
+    "url": "https://tailwindcss.com/docs/preflight"
+  },
+  {
+    "label": "aspect-ratio",
+    "url": "https://tailwindcss.com/docs/aspect-ratio"
+  },
+  {
+    "label": "columns",
+    "url": "https://tailwindcss.com/docs/columns"
+  },
+  {
+    "label": "break-after",
+    "url": "https://tailwindcss.com/docs/break-after"
+  },
+  {
+    "label": "break-before",
+    "url": "https://tailwindcss.com/docs/break-before"
+  },
+  {
+    "label": "break-inside",
+    "url": "https://tailwindcss.com/docs/break-inside"
+  },
+  {
+    "label": "box-decoration-break",
+    "url": "https://tailwindcss.com/docs/box-decoration-break"
+  },
+  {
+    "label": "box-sizing",
+    "url": "https://tailwindcss.com/docs/box-sizing"
+  },
+  {
+    "label": "display",
+    "url": "https://tailwindcss.com/docs/display"
+  },
+  {
+    "label": "float",
+    "url": "https://tailwindcss.com/docs/float"
+  },
+  {
+    "label": "clear",
+    "url": "https://tailwindcss.com/docs/clear"
+  },
+  {
+    "label": "isolation",
+    "url": "https://tailwindcss.com/docs/isolation"
+  },
+  {
+    "label": "object-fit",
+    "url": "https://tailwindcss.com/docs/object-fit"
+  },
+  {
+    "label": "object-position",
+    "url": "https://tailwindcss.com/docs/object-position"
+  },
+  {
+    "label": "overflow",
+    "url": "https://tailwindcss.com/docs/overflow"
+  },
+  {
+    "label": "overscroll-behavior",
+    "url": "https://tailwindcss.com/docs/overscroll-behavior"
+  },
+  {
+    "label": "position",
+    "url": "https://tailwindcss.com/docs/position"
+  },
+  {
+    "label": "top / right / bottom / left",
+    "url": "https://tailwindcss.com/docs/top-right-bottom-left"
+  },
+  {
+    "label": "visibility",
+    "url": "https://tailwindcss.com/docs/visibility"
+  },
+  {
+    "label": "z-index",
+    "url": "https://tailwindcss.com/docs/z-index"
+  },
+  {
+    "label": "flex-basis",
+    "url": "https://tailwindcss.com/docs/flex-basis"
+  },
+  {
+    "label": "flex-direction",
+    "url": "https://tailwindcss.com/docs/flex-direction"
+  },
+  {
+    "label": "flex-wrap",
+    "url": "https://tailwindcss.com/docs/flex-wrap"
+  },
+  {
+    "label": "flex",
+    "url": "https://tailwindcss.com/docs/flex"
+  },
+  {
+    "label": "flex-grow",
+    "url": "https://tailwindcss.com/docs/flex-grow"
+  },
+  {
+    "label": "flex-shrink",
+    "url": "https://tailwindcss.com/docs/flex-shrink"
+  },
+  {
+    "label": "order",
+    "url": "https://tailwindcss.com/docs/order"
+  },
+  {
+    "label": "grid-template-columns",
+    "url": "https://tailwindcss.com/docs/grid-template-columns"
+  },
+  {
+    "label": "grid-column",
+    "url": "https://tailwindcss.com/docs/grid-column"
+  },
+  {
+    "label": "grid-template-rows",
+    "url": "https://tailwindcss.com/docs/grid-template-rows"
+  },
+  {
+    "label": "grid-row",
+    "url": "https://tailwindcss.com/docs/grid-row"
+  },
+  {
+    "label": "grid-auto-flow",
+    "url": "https://tailwindcss.com/docs/grid-auto-flow"
+  },
+  {
+    "label": "grid-auto-columns",
+    "url": "https://tailwindcss.com/docs/grid-auto-columns"
+  },
+  {
+    "label": "grid-auto-rows",
+    "url": "https://tailwindcss.com/docs/grid-auto-rows"
+  },
+  {
+    "label": "gap",
+    "url": "https://tailwindcss.com/docs/gap"
+  },
+  {
+    "label": "justify-content",
+    "url": "https://tailwindcss.com/docs/justify-content"
+  },
+  {
+    "label": "justify-items",
+    "url": "https://tailwindcss.com/docs/justify-items"
+  },
+  {
+    "label": "justify-self",
+    "url": "https://tailwindcss.com/docs/justify-self"
+  },
+  {
+    "label": "align-content",
+    "url": "https://tailwindcss.com/docs/align-content"
+  },
+  {
+    "label": "align-items",
+    "url": "https://tailwindcss.com/docs/align-items"
+  },
+  {
+    "label": "align-self",
+    "url": "https://tailwindcss.com/docs/align-self"
+  },
+  {
+    "label": "place-content",
+    "url": "https://tailwindcss.com/docs/place-content"
+  },
+  {
+    "label": "place-items",
+    "url": "https://tailwindcss.com/docs/place-items"
+  },
+  {
+    "label": "place-self",
+    "url": "https://tailwindcss.com/docs/place-self"
+  },
+  {
+    "label": "padding",
+    "url": "https://tailwindcss.com/docs/padding"
+  },
+  {
+    "label": "margin",
+    "url": "https://tailwindcss.com/docs/margin"
+  },
+  {
+    "label": "width",
+    "url": "https://tailwindcss.com/docs/width"
+  },
+  {
+    "label": "min-width",
+    "url": "https://tailwindcss.com/docs/min-width"
+  },
+  {
+    "label": "max-width",
+    "url": "https://tailwindcss.com/docs/max-width"
+  },
+  {
+    "label": "height",
+    "url": "https://tailwindcss.com/docs/height"
+  },
+  {
+    "label": "min-height",
+    "url": "https://tailwindcss.com/docs/min-height"
+  },
+  {
+    "label": "max-height",
+    "url": "https://tailwindcss.com/docs/max-height"
+  },
+  {
+    "label": "inline-size",
+    "url": "https://tailwindcss.com/docs/inline-size"
+  },
+  {
+    "label": "min-inline-size",
+    "url": "https://tailwindcss.com/docs/min-inline-size"
+  },
+  {
+    "label": "max-inline-size",
+    "url": "https://tailwindcss.com/docs/max-inline-size"
+  },
+  {
+    "label": "block-size",
+    "url": "https://tailwindcss.com/docs/block-size"
+  },
+  {
+    "label": "min-block-size",
+    "url": "https://tailwindcss.com/docs/min-block-size"
+  },
+  {
+    "label": "max-block-size",
+    "url": "https://tailwindcss.com/docs/max-block-size"
+  },
+  {
+    "label": "font-family",
+    "url": "https://tailwindcss.com/docs/font-family"
+  },
+  {
+    "label": "font-size",
+    "url": "https://tailwindcss.com/docs/font-size"
+  },
+  {
+    "label": "font-smoothing",
+    "url": "https://tailwindcss.com/docs/font-smoothing"
+  },
+  {
+    "label": "font-style",
+    "url": "https://tailwindcss.com/docs/font-style"
+  },
+  {
+    "label": "font-weight",
+    "url": "https://tailwindcss.com/docs/font-weight"
+  },
+  {
+    "label": "font-stretch",
+    "url": "https://tailwindcss.com/docs/font-stretch"
+  },
+  {
+    "label": "font-variant-numeric",
+    "url": "https://tailwindcss.com/docs/font-variant-numeric"
+  },
+  {
+    "label": "font-feature-settings",
+    "url": "https://tailwindcss.com/docs/font-feature-settings"
+  },
+  {
+    "label": "letter-spacing",
+    "url": "https://tailwindcss.com/docs/letter-spacing"
+  },
+  {
+    "label": "line-clamp",
+    "url": "https://tailwindcss.com/docs/line-clamp"
+  },
+  {
+    "label": "line-height",
+    "url": "https://tailwindcss.com/docs/line-height"
+  },
+  {
+    "label": "list-style-image",
+    "url": "https://tailwindcss.com/docs/list-style-image"
+  },
+  {
+    "label": "list-style-position",
+    "url": "https://tailwindcss.com/docs/list-style-position"
+  },
+  {
+    "label": "list-style-type",
+    "url": "https://tailwindcss.com/docs/list-style-type"
+  },
+  {
+    "label": "text-align",
+    "url": "https://tailwindcss.com/docs/text-align"
+  },
+  {
+    "label": "color",
+    "url": "https://tailwindcss.com/docs/color"
+  },
+  {
+    "label": "text-decoration-line",
+    "url": "https://tailwindcss.com/docs/text-decoration-line"
+  },
+  {
+    "label": "text-decoration-color",
+    "url": "https://tailwindcss.com/docs/text-decoration-color"
+  },
+  {
+    "label": "text-decoration-style",
+    "url": "https://tailwindcss.com/docs/text-decoration-style"
+  },
+  {
+    "label": "text-decoration-thickness",
+    "url": "https://tailwindcss.com/docs/text-decoration-thickness"
+  },
+  {
+    "label": "text-underline-offset",
+    "url": "https://tailwindcss.com/docs/text-underline-offset"
+  },
+  {
+    "label": "text-transform",
+    "url": "https://tailwindcss.com/docs/text-transform"
+  },
+  {
+    "label": "text-overflow",
+    "url": "https://tailwindcss.com/docs/text-overflow"
+  },
+  {
+    "label": "text-wrap",
+    "url": "https://tailwindcss.com/docs/text-wrap"
+  },
+  {
+    "label": "text-indent",
+    "url": "https://tailwindcss.com/docs/text-indent"
+  },
+  {
+    "label": "tab-size",
+    "url": "https://tailwindcss.com/docs/tab-size"
+  },
+  {
+    "label": "vertical-align",
+    "url": "https://tailwindcss.com/docs/vertical-align"
+  },
+  {
+    "label": "white-space",
+    "url": "https://tailwindcss.com/docs/white-space"
+  },
+  {
+    "label": "word-break",
+    "url": "https://tailwindcss.com/docs/word-break"
+  },
+  {
+    "label": "overflow-wrap",
+    "url": "https://tailwindcss.com/docs/overflow-wrap"
+  },
+  {
+    "label": "hyphens",
+    "url": "https://tailwindcss.com/docs/hyphens"
+  },
+  {
+    "label": "content",
+    "url": "https://tailwindcss.com/docs/content"
+  },
+  {
+    "label": "background-attachment",
+    "url": "https://tailwindcss.com/docs/background-attachment"
+  },
+  {
+    "label": "background-clip",
+    "url": "https://tailwindcss.com/docs/background-clip"
+  },
+  {
+    "label": "background-color",
+    "url": "https://tailwindcss.com/docs/background-color"
+  },
+  {
+    "label": "background-image",
+    "url": "https://tailwindcss.com/docs/background-image"
+  },
+  {
+    "label": "background-origin",
+    "url": "https://tailwindcss.com/docs/background-origin"
+  },
+  {
+    "label": "background-position",
+    "url": "https://tailwindcss.com/docs/background-position"
+  },
+  {
+    "label": "background-repeat",
+    "url": "https://tailwindcss.com/docs/background-repeat"
+  },
+  {
+    "label": "background-size",
+    "url": "https://tailwindcss.com/docs/background-size"
+  },
+  {
+    "label": "border-radius",
+    "url": "https://tailwindcss.com/docs/border-radius"
+  },
+  {
+    "label": "border-width",
+    "url": "https://tailwindcss.com/docs/border-width"
+  },
+  {
+    "label": "border-color",
+    "url": "https://tailwindcss.com/docs/border-color"
+  },
+  {
+    "label": "border-style",
+    "url": "https://tailwindcss.com/docs/border-style"
+  },
+  {
+    "label": "outline-width",
+    "url": "https://tailwindcss.com/docs/outline-width"
+  },
+  {
+    "label": "outline-color",
+    "url": "https://tailwindcss.com/docs/outline-color"
+  },
+  {
+    "label": "outline-style",
+    "url": "https://tailwindcss.com/docs/outline-style"
+  },
+  {
+    "label": "outline-offset",
+    "url": "https://tailwindcss.com/docs/outline-offset"
+  },
+  {
+    "label": "box-shadow",
+    "url": "https://tailwindcss.com/docs/box-shadow"
+  },
+  {
+    "label": "text-shadow",
+    "url": "https://tailwindcss.com/docs/text-shadow"
+  },
+  {
+    "label": "opacity",
+    "url": "https://tailwindcss.com/docs/opacity"
+  },
+  {
+    "label": "mix-blend-mode",
+    "url": "https://tailwindcss.com/docs/mix-blend-mode"
+  },
+  {
+    "label": "background-blend-mode",
+    "url": "https://tailwindcss.com/docs/background-blend-mode"
+  },
+  {
+    "label": "mask-clip",
+    "url": "https://tailwindcss.com/docs/mask-clip"
+  },
+  {
+    "label": "mask-composite",
+    "url": "https://tailwindcss.com/docs/mask-composite"
+  },
+  {
+    "label": "mask-image",
+    "url": "https://tailwindcss.com/docs/mask-image"
+  },
+  {
+    "label": "mask-mode",
+    "url": "https://tailwindcss.com/docs/mask-mode"
+  },
+  {
+    "label": "mask-origin",
+    "url": "https://tailwindcss.com/docs/mask-origin"
+  },
+  {
+    "label": "mask-position",
+    "url": "https://tailwindcss.com/docs/mask-position"
+  },
+  {
+    "label": "mask-repeat",
+    "url": "https://tailwindcss.com/docs/mask-repeat"
+  },
+  {
+    "label": "mask-size",
+    "url": "https://tailwindcss.com/docs/mask-size"
+  },
+  {
+    "label": "mask-type",
+    "url": "https://tailwindcss.com/docs/mask-type"
+  },
+  {
+    "label": "filter",
+    "url": "https://tailwindcss.com/docs/filter"
+  },
+  {
+    "label": "blur",
+    "url": "https://tailwindcss.com/docs/filter-blur"
+  },
+  {
+    "label": "brightness",
+    "url": "https://tailwindcss.com/docs/filter-brightness"
+  },
+  {
+    "label": "contrast",
+    "url": "https://tailwindcss.com/docs/filter-contrast"
+  },
+  {
+    "label": "drop-shadow",
+    "url": "https://tailwindcss.com/docs/filter-drop-shadow"
+  },
+  {
+    "label": "grayscale",
+    "url": "https://tailwindcss.com/docs/filter-grayscale"
+  },
+  {
+    "label": "hue-rotate",
+    "url": "https://tailwindcss.com/docs/filter-hue-rotate"
+  },
+  {
+    "label": "invert",
+    "url": "https://tailwindcss.com/docs/filter-invert"
+  },
+  {
+    "label": "saturate",
+    "url": "https://tailwindcss.com/docs/filter-saturate"
+  },
+  {
+    "label": "sepia",
+    "url": "https://tailwindcss.com/docs/filter-sepia"
+  },
+  {
+    "label": "backdrop-filter",
+    "url": "https://tailwindcss.com/docs/backdrop-filter"
+  },
+  {
+    "label": "blur",
+    "url": "https://tailwindcss.com/docs/backdrop-filter-blur"
+  },
+  {
+    "label": "brightness",
+    "url": "https://tailwindcss.com/docs/backdrop-filter-brightness"
+  },
+  {
+    "label": "contrast",
+    "url": "https://tailwindcss.com/docs/backdrop-filter-contrast"
+  },
+  {
+    "label": "grayscale",
+    "url": "https://tailwindcss.com/docs/backdrop-filter-grayscale"
+  },
+  {
+    "label": "hue-rotate",
+    "url": "https://tailwindcss.com/docs/backdrop-filter-hue-rotate"
+  },
+  {
+    "label": "invert",
+    "url": "https://tailwindcss.com/docs/backdrop-filter-invert"
+  },
+  {
+    "label": "opacity",
+    "url": "https://tailwindcss.com/docs/backdrop-filter-opacity"
+  },
+  {
+    "label": "saturate",
+    "url": "https://tailwindcss.com/docs/backdrop-filter-saturate"
+  },
+  {
+    "label": "sepia",
+    "url": "https://tailwindcss.com/docs/backdrop-filter-sepia"
+  },
+  {
+    "label": "border-collapse",
+    "url": "https://tailwindcss.com/docs/border-collapse"
+  },
+  {
+    "label": "border-spacing",
+    "url": "https://tailwindcss.com/docs/border-spacing"
+  },
+  {
+    "label": "table-layout",
+    "url": "https://tailwindcss.com/docs/table-layout"
+  },
+  {
+    "label": "caption-side",
+    "url": "https://tailwindcss.com/docs/caption-side"
+  },
+  {
+    "label": "transition-property",
+    "url": "https://tailwindcss.com/docs/transition-property"
+  },
+  {
+    "label": "transition-behavior",
+    "url": "https://tailwindcss.com/docs/transition-behavior"
+  },
+  {
+    "label": "transition-duration",
+    "url": "https://tailwindcss.com/docs/transition-duration"
+  },
+  {
+    "label": "transition-timing-function",
+    "url": "https://tailwindcss.com/docs/transition-timing-function"
+  },
+  {
+    "label": "transition-delay",
+    "url": "https://tailwindcss.com/docs/transition-delay"
+  },
+  {
+    "label": "animation",
+    "url": "https://tailwindcss.com/docs/animation"
+  },
+  {
+    "label": "backface-visibility",
+    "url": "https://tailwindcss.com/docs/backface-visibility"
+  },
+  {
+    "label": "perspective",
+    "url": "https://tailwindcss.com/docs/perspective"
+  },
+  {
+    "label": "perspective-origin",
+    "url": "https://tailwindcss.com/docs/perspective-origin"
+  },
+  {
+    "label": "rotate",
+    "url": "https://tailwindcss.com/docs/rotate"
+  },
+  {
+    "label": "scale",
+    "url": "https://tailwindcss.com/docs/scale"
+  },
+  {
+    "label": "skew",
+    "url": "https://tailwindcss.com/docs/skew"
+  },
+  {
+    "label": "transform",
+    "url": "https://tailwindcss.com/docs/transform"
+  },
+  {
+    "label": "transform-origin",
+    "url": "https://tailwindcss.com/docs/transform-origin"
+  },
+  {
+    "label": "transform-style",
+    "url": "https://tailwindcss.com/docs/transform-style"
+  },
+  {
+    "label": "translate",
+    "url": "https://tailwindcss.com/docs/translate"
+  },
+  {
+    "label": "zoom",
+    "url": "https://tailwindcss.com/docs/zoom"
+  },
+  {
+    "label": "accent-color",
+    "url": "https://tailwindcss.com/docs/accent-color"
+  },
+  {
+    "label": "appearance",
+    "url": "https://tailwindcss.com/docs/appearance"
+  },
+  {
+    "label": "caret-color",
+    "url": "https://tailwindcss.com/docs/caret-color"
+  },
+  {
+    "label": "color-scheme",
+    "url": "https://tailwindcss.com/docs/color-scheme"
+  },
+  {
+    "label": "cursor",
+    "url": "https://tailwindcss.com/docs/cursor"
+  },
+  {
+    "label": "field-sizing",
+    "url": "https://tailwindcss.com/docs/field-sizing"
+  },
+  {
+    "label": "pointer-events",
+    "url": "https://tailwindcss.com/docs/pointer-events"
+  },
+  {
+    "label": "resize",
+    "url": "https://tailwindcss.com/docs/resize"
+  },
+  {
+    "label": "scroll-behavior",
+    "url": "https://tailwindcss.com/docs/scroll-behavior"
+  },
+  {
+    "label": "scrollbar-color",
+    "url": "https://tailwindcss.com/docs/scrollbar-color"
+  },
+  {
+    "label": "scrollbar-width",
+    "url": "https://tailwindcss.com/docs/scrollbar-width"
+  },
+  {
+    "label": "scrollbar-gutter",
+    "url": "https://tailwindcss.com/docs/scrollbar-gutter"
+  },
+  {
+    "label": "scroll-margin",
+    "url": "https://tailwindcss.com/docs/scroll-margin"
+  },
+  {
+    "label": "scroll-padding",
+    "url": "https://tailwindcss.com/docs/scroll-padding"
+  },
+  {
+    "label": "scroll-snap-align",
+    "url": "https://tailwindcss.com/docs/scroll-snap-align"
+  },
+  {
+    "label": "scroll-snap-stop",
+    "url": "https://tailwindcss.com/docs/scroll-snap-stop"
+  },
+  {
+    "label": "scroll-snap-type",
+    "url": "https://tailwindcss.com/docs/scroll-snap-type"
+  },
+  {
+    "label": "touch-action",
+    "url": "https://tailwindcss.com/docs/touch-action"
+  },
+  {
+    "label": "user-select",
+    "url": "https://tailwindcss.com/docs/user-select"
+  },
+  {
+    "label": "will-change",
+    "url": "https://tailwindcss.com/docs/will-change"
+  },
+  {
+    "label": "fill",
+    "url": "https://tailwindcss.com/docs/fill"
+  },
+  {
+    "label": "stroke",
+    "url": "https://tailwindcss.com/docs/stroke"
+  },
+  {
+    "label": "stroke-width",
+    "url": "https://tailwindcss.com/docs/stroke-width"
+  },
+  {
+    "label": "forced-color-adjust",
+    "url": "https://tailwindcss.com/docs/forced-color-adjust"
+  }
+]
