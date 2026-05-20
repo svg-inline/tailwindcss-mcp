@@ -18,7 +18,8 @@
     "dev": "tsx src/index.ts",
     "start": "node dist/index.js",
     "crawl": "node dist/cli-crawl.js",
-    "crawl:check": "node dist/cli-crawl.js check"
+    "crawl:check": "node dist/cli-crawl.js check",
+    "crawl:fix-sections": "node dist/cli-crawl.js fix-sections"
   },
   "dependencies": {
     "@modelcontextprotocol/sdk": "^1.29.0",

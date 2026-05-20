@@ -2,14 +2,16 @@
 import { McpServer } from "@modelcontextprotocol/sdk/server/mcp.js";
 import { StdioServerTransport } from "@modelcontextprotocol/sdk/server/stdio.js";
 import { z } from "zod";
+import { inferSection, loadUrls, revalidateIfNeeded } from "./crawler.js";
 import {
-  searchPages,
-  getPage,
+  fixAllSections,
   getAllPages,
-  getPageCount,
   getMeta,
+  getPage,
+  getPageCount,
+  reloadFromDisk,
+  searchPages,
 } from "./db.js";
-import { revalidateIfNeeded, loadUrls } from "./crawler.js";
 
 const server = new McpServer({
   name: "tailwindcss-mcp",
@@ -21,7 +23,7 @@ let revalidationPromise: Promise<any> | null = null;
 function ensureRevalidated() {
   if (!revalidationPromise) {
     revalidationPromise = revalidateIfNeeded().catch((e) =>
-      console.error("[mcp] revalidate error:", e.message)
+      console.error("[mcp] revalidate error:", e.message),
     );
   }
   return revalidationPromise;
@@ -52,7 +54,7 @@ function levenshteinDistance(a: string, b: string): number {
       current[j] = Math.min(
         current[j - 1] + 1,
         previous[j] + 1,
-        previous[j - 1] + cost
+        previous[j - 1] + cost,
       );
     }
     previous.splice(0, previous.length, ...current);
@@ -66,7 +68,10 @@ function similarityScore(input: string, page: any): number {
   const pageSlug = String(page.slug ?? "").toLowerCase();
   const pageTitle = normalizeSlugText(page.title || page.label || "");
   const queryTokens = slugTokens(input);
-  const pageTokens = new Set([...slugTokens(pageSlug), ...slugTokens(pageTitle)]);
+  const pageTokens = new Set([
+    ...slugTokens(pageSlug),
+    ...slugTokens(pageTitle),
+  ]);
   const distance = levenshteinDistance(querySlug, pageSlug);
   const maxLength = Math.max(querySlug.length, pageSlug.length, 1);
   const similarity = 1 - distance / maxLength;
@@ -86,7 +91,8 @@ function similarityScore(input: string, page: any): number {
   }
 
   if (similarity >= 0.58) score += Math.round(similarity * 140);
-  if (queryTokens.length >= 2 && tokenMatches < 2 && similarity < 0.58) return 0;
+  if (queryTokens.length >= 2 && tokenMatches < 2 && similarity < 0.58)
+    return 0;
 
   return score;
 }
@@ -111,7 +117,7 @@ server.tool(
     query: z
       .string()
       .describe(
-        "Termo de busca (ex: 'flex gap', 'dark mode', 'hover states', 'grid responsive')"
+        "Termo de busca (ex: 'flex gap', 'dark mode', 'hover states', 'grid responsive')",
       ),
     limit: z
       .number()
@@ -155,7 +161,7 @@ server.tool(
           `## ${i + 1}. ${p.title || p.label}\n` +
           `**Seção:** ${p.section}  |  **URL:** ${p.url}\n\n` +
           (p.description ? `> ${p.description}\n\n` : "") +
-          `${p.excerpt}...\n`
+          `${p.excerpt}...\n`,
       )
       .join("\n---\n\n");
 
@@ -173,7 +179,7 @@ server.tool(
         },
       ],
     };
-  }
+  },
 );
 
 // ─────────────────────────────────────────────
@@ -186,7 +192,7 @@ server.tool(
     slug: z
       .string()
       .describe(
-        "Slug da página (ex: 'flex', 'grid-template-columns', 'dark-mode', 'hover-focus-and-other-states')"
+        "Slug da página (ex: 'flex', 'grid-template-columns', 'dark-mode', 'hover-focus-and-other-states')",
       ),
   },
   async ({ slug }) => {
@@ -229,7 +235,7 @@ server.tool(
         },
       ],
     };
-  }
+  },
 );
 
 // ─────────────────────────────────────────────
@@ -264,7 +270,9 @@ server.tool(
 
     const all = await getAllPages();
     const filtered = section
-      ? all.filter((p) => p.section.toLowerCase().includes(section.toLowerCase()))
+      ? all.filter((p) =>
+          p.section.toLowerCase().includes(section.toLowerCase()),
+        )
       : all;
 
     if (filtered.length === 0) {
@@ -309,7 +317,7 @@ server.tool(
           `## ${sec}\n` +
           (pages as any[])
             .map((p) => `- \`${p.slug}\` — ${p.title || p.label}`)
-            .join("\n")
+            .join("\n"),
       )
       .join("\n\n");
 
@@ -327,7 +335,7 @@ server.tool(
         },
       ],
     };
-  }
+  },
 );
 
 // ─────────────────────────────────────────────
@@ -360,7 +368,7 @@ server.tool(
         },
       ],
     };
-  }
+  },
 );
 
 // ─────────────────────────────────────────────
@@ -371,8 +379,15 @@ server.tool(
   "Força uma verificação imediata do SHA do GitHub e recrawla as páginas se houver atualizações.",
   {},
   async () => {
+    // Recarrega o banco do disco antes de qualquer operação,
+    // garantindo que mudanças feitas pelo CLI (fix-sections, crawl) sejam visíveis.
+    reloadFromDisk();
+
     revalidationPromise = null; // reseta para forçar novo check
     const result = await revalidateIfNeeded();
+
+    // Re-aplica inferSection em memória para garantir seções corretas
+    const sectionsFixed = await fixAllSections(inferSection);
     const count = await getPageCount();
 
     return {
@@ -383,11 +398,14 @@ server.tool(
             `# Revalidação do Cache\n\n` +
             `- **Status:** ${result.status}\n` +
             `- **SHA:** ${result.sha?.slice(0, 7) ?? "indisponível"}\n` +
-            `- **Páginas no cache:** ${count}\n`,
+            `- **Páginas no cache:** ${count}\n` +
+            (sectionsFixed > 0
+              ? `- **Seções corrigidas:** ${sectionsFixed}\n`
+              : ""),
         },
       ],
     };
-  }
+  },
 );
 
 // ─────────────────────────────────────────────

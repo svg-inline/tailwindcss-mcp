@@ -1,6 +1,6 @@
+import { existsSync, mkdirSync, readFileSync, writeFileSync } from "fs";
 import { createRequire } from "module";
-import { readFileSync, writeFileSync, existsSync, mkdirSync } from "fs";
-import { join, dirname } from "path";
+import { dirname, join } from "path";
 import { fileURLToPath } from "url";
 
 const require = createRequire(import.meta.url);
@@ -18,6 +18,14 @@ async function getSQL() {
   const initSqlJs = require("sql.js/dist/sql-asm.js");
   _SQL = await initSqlJs();
   return _SQL;
+}
+
+/**
+ * Descarta o singleton em memória e força releitura do arquivo em disco
+ * na próxima chamada a openDb(). Útil quando outro processo (CLI) atualizou o .db.
+ */
+export function reloadFromDisk() {
+  _db = null;
 }
 
 export async function openDb() {
@@ -87,7 +95,7 @@ function rebuildPagesFts(db: any) {
 function ensurePagesFts(db: any) {
   const ftsSql = getSingleValue(
     db,
-    `SELECT sql FROM sqlite_master WHERE type = 'table' AND name = 'pages_fts'`
+    `SELECT sql FROM sqlite_master WHERE type = 'table' AND name = 'pages_fts'`,
   );
 
   if (!ftsSql) {
@@ -119,7 +127,10 @@ export async function getMeta(key: string): Promise<string | null> {
 
 export async function setMeta(key: string, value: string) {
   const db = await openDb();
-  db.run(`INSERT OR REPLACE INTO meta (key, value) VALUES (?, ?)`, [key, value]);
+  db.run(`INSERT OR REPLACE INTO meta (key, value) VALUES (?, ?)`, [
+    key,
+    value,
+  ]);
   saveDb();
 }
 
@@ -140,7 +151,16 @@ export async function upsertPage(page: {
     db.run(
       `INSERT OR REPLACE INTO pages (slug, label, url, title, description, content, section, fetched_at)
        VALUES (?, ?, ?, ?, ?, ?, ?, ?)`,
-      [page.slug, page.label, page.url, page.title, page.description, page.content, page.section, now]
+      [
+        page.slug,
+        page.label,
+        page.url,
+        page.title,
+        page.description,
+        page.content,
+        page.section,
+        now,
+      ],
     );
 
     // Atualiza FTS
@@ -148,7 +168,7 @@ export async function upsertPage(page: {
     db.run(
       `INSERT INTO pages_fts (slug, label, title, description, content)
        VALUES (?, ?, ?, ?, ?)`,
-      [page.slug, page.label, page.title, page.description, page.content]
+      [page.slug, page.label, page.title, page.description, page.content],
     );
     db.run(`COMMIT`);
   } catch (err) {
@@ -161,11 +181,15 @@ function rowsToObjects(result: any[]): any[] {
   if (result.length === 0) return [];
   const [{ columns, values }] = result;
   return values.map((row: any[]) =>
-    Object.fromEntries(columns.map((col: string, i: number) => [col, row[i]]))
+    Object.fromEntries(columns.map((col: string, i: number) => [col, row[i]])),
   );
 }
 
-function extractExcerpt(content: string, query: string, windowSize = 500): string {
+function extractExcerpt(
+  content: string,
+  query: string,
+  windowSize = 500,
+): string {
   const normalizedQuery = query.toLowerCase().trim();
   const terms = normalizedQuery
     .split(/\s+/)
@@ -351,7 +375,11 @@ function longestContiguousQueryRun(field: string, queryTerms: string[]) {
   return { length: bestLength, start: bestStart };
 }
 
-function scoreContiguousQueryRun(field: string, queryTerms: string[], weight: number): number {
+function scoreContiguousQueryRun(
+  field: string,
+  queryTerms: string[],
+  weight: number,
+): number {
   if (queryTerms.length < 2) return 0;
 
   const run = longestContiguousQueryRun(field, queryTerms);
@@ -361,7 +389,10 @@ function scoreContiguousQueryRun(field: string, queryTerms: string[], weight: nu
   return run.length * weight + earlierRunBoost;
 }
 
-function scoreSearchCandidate(candidate: SearchCandidate, query: string): number {
+function scoreSearchCandidate(
+  candidate: SearchCandidate,
+  query: string,
+): number {
   const normalizedQuery = normalizeSearchText(query);
   const originalTerms = uniqueTerms(tokenize(query));
   const expandedTerms = expandTerms(originalTerms);
@@ -382,7 +413,8 @@ function scoreSearchCandidate(candidate: SearchCandidate, query: string): number
 
   if (slug === slugPhrase) score += 1600;
   if (title === normalizedQuery) score += 1400;
-  if (slug.startsWith(`${slugPhrase}-`) || slug.startsWith(slugPhrase)) score += 850;
+  if (slug.startsWith(`${slugPhrase}-`) || slug.startsWith(slugPhrase))
+    score += 850;
   if (fieldIncludes(title, normalizedQuery)) score += 750;
   if (fieldIncludes(label, normalizedQuery)) score += 650;
   if (fieldIncludes(description, normalizedQuery)) score += 240;
@@ -418,16 +450,21 @@ function scoreSearchCandidate(candidate: SearchCandidate, query: string): number
   }
 
   if (importantMatches.size === originalTerms.length) score += 500;
-  else if (importantMatches.size >= Math.ceil(originalTerms.length / 2)) score += 180;
+  else if (importantMatches.size >= Math.ceil(originalTerms.length / 2))
+    score += 180;
 
-  const expandedOnlyTerms = expandedTerms.filter((term) => !originalTerms.includes(term));
+  const expandedOnlyTerms = expandedTerms.filter(
+    (term) => !originalTerms.includes(term),
+  );
   score += countFieldTermMatches(slugText, expandedOnlyTerms) * 45;
   score += countFieldTermMatches(title, expandedOnlyTerms) * 40;
   score += countFieldTermMatches(description, expandedOnlyTerms) * 15;
   score += countFieldTermMatches(content, expandedOnlyTerms) * 3;
 
-  if (originalTerms.length > 1 && contentMatches === originalTerms.length) score += 50;
-  if (GENERIC_SLUGS.has(slug) && importantMatches.size < originalTerms.length) score -= 120;
+  if (originalTerms.length > 1 && contentMatches === originalTerms.length)
+    score += 50;
+  if (GENERIC_SLUGS.has(slug) && importantMatches.size < originalTerms.length)
+    score -= 120;
 
   for (const intent of QUERY_INTENT_BOOSTS) {
     if (intent.terms.every((term) => queryTermSet.has(term))) {
@@ -438,7 +475,11 @@ function scoreSearchCandidate(candidate: SearchCandidate, query: string): number
   return score;
 }
 
-function rankSearchCandidates(rows: SearchCandidate[], query: string, limit: number): any[] {
+function rankSearchCandidates(
+  rows: SearchCandidate[],
+  query: string,
+  limit: number,
+): any[] {
   return withExcerpts(
     rows
       .map((row) => ({
@@ -448,20 +489,17 @@ function rankSearchCandidates(rows: SearchCandidate[], query: string, limit: num
       .filter((row) => row.rank > 0)
       .sort((a, b) => b.rank - a.rank || a.slug.localeCompare(b.slug))
       .slice(0, limit),
-    query
+    query,
   );
 }
 
-export async function searchPages(
-  query: string,
-  limit = 5
-): Promise<any[]> {
+export async function searchPages(query: string, limit = 5): Promise<any[]> {
   const db = await openDb();
 
   try {
     const result = db.exec(
       `SELECT slug, label, url, title, description, section, content
-       FROM pages`
+       FROM pages`,
     );
 
     return rankSearchCandidates(rowsToObjects(result), query, limit);
@@ -490,7 +528,7 @@ export async function searchPages(
         `${slugQuery}%`,
         `${normalizedQuery}%`,
         limit,
-      ]
+      ],
     );
     return withExcerpts(rowsToObjects(result), query);
   }
@@ -498,29 +536,65 @@ export async function searchPages(
 
 export async function getPage(slug: string): Promise<any | null> {
   const db = await openDb();
-  const result = db.exec(
-    `SELECT * FROM pages WHERE slug = ?`,
-    [slug]
-  );
+  const result = db.exec(`SELECT * FROM pages WHERE slug = ?`, [slug]);
   if (result.length === 0 || result[0].values.length === 0) return null;
   const { columns, values } = result[0];
-  return Object.fromEntries(columns.map((col: string, i: number) => [col, values[0][i]]));
+  return Object.fromEntries(
+    columns.map((col: string, i: number) => [col, values[0][i]]),
+  );
 }
 
 export async function getAllPages(): Promise<any[]> {
   const db = await openDb();
   const result = db.exec(
-    `SELECT slug, label, url, title, section, fetched_at FROM pages ORDER BY section, slug`
+    `SELECT slug, label, url, title, section, fetched_at FROM pages ORDER BY section, slug`,
   );
   if (result.length === 0) return [];
   const [{ columns, values }] = result;
   return values.map((row: any[]) =>
-    Object.fromEntries(columns.map((col: string, i: number) => [col, row[i]]))
+    Object.fromEntries(columns.map((col: string, i: number) => [col, row[i]])),
   );
+}
+
+/**
+ * Reclassifica a seção de todas as páginas no cache sem refazer o crawl.
+ * Recebe a função inferSection como parâmetro para evitar dependência circular.
+ * Retorna o número de páginas atualizadas.
+ */
+export async function fixAllSections(
+  inferFn: (label: string, slug: string) => string,
+): Promise<number> {
+  const db = await openDb();
+  const result = db.exec(`SELECT slug, label, section FROM pages`);
+  if (result.length === 0) return 0;
+
+  const pages = rowsToObjects(result);
+  let updated = 0;
+
+  db.run("BEGIN TRANSACTION");
+  try {
+    for (const page of pages) {
+      const newSection = inferFn(page.label as string, page.slug as string);
+      if (newSection !== page.section) {
+        db.run("UPDATE pages SET section = ? WHERE slug = ?", [
+          newSection,
+          page.slug,
+        ]);
+        updated++;
+      }
+    }
+    db.run("COMMIT");
+  } catch (err) {
+    db.run("ROLLBACK");
+    throw err;
+  }
+
+  if (updated > 0) saveDb();
+  return updated;
 }
 
 export async function getPageCount(): Promise<number> {
   const db = await openDb();
   const result = db.exec(`SELECT COUNT(*) FROM pages`);
-  return result[0]?.values[0][0] as number ?? 0;
+  return (result[0]?.values[0][0] as number) ?? 0;
 }

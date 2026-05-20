@@ -32,22 +32,27 @@ function slugFromUrl(url: string): string {
   return url.replace(/^.*\/docs\//, "").replace(/\?.*$/, "");
 }
 
-function inferSection(label: string, slug: string): string {
+export function inferSection(label: string, slug: string): string {
   const sectionMap: [RegExp, string][] = [
     [/installation|editor.setup|compatibility|upgrade/i, "Getting Started"],
     [/styling.with|hover.focus|responsive|dark.mode|theme.variables|colors|adding.custom|detecting.classes|functions.and.directives|preflight/i, "Core Concepts"],
     [/aspect.ratio|columns|break|box.decoration|box.sizing|display|float|clear|isolation|object.fit|object.position|overflow|overscroll|position|top.right|visibility|z.index/i, "Layout"],
-    [/flex|order|grid|gap|justify|align|place/i, "Flexbox & Grid"],
-    [/padding|margin/i, "Spacing"],
-    [/width|height|inline.size|block.size|size/i, "Sizing"],
-    [/font|letter.spacing|line.clamp|line.height|list.style|text.|vertical.align|whitespace|word.break|hyphens|content/i, "Typography"],
-    [/background|gradient/i, "Backgrounds"],
+    // Tables antes de Borders: border-collapse e border-spacing devem ir para Tables
+    [/border.collapse|border.spacing|table.layout|caption/i, "Tables"],
+    // Borders antes de Flexbox & Grid: evita "border" casar com "order" (substring)
+    // Borders antes de Sizing: evita "outline-width" e "border-width" casarem com "width"
     [/border|outline|divide|ring/i, "Borders"],
+    // \border\b garante match apenas em "order" isolado, não em "b|order|-*"
+    [/flex|\border\b|grid|gap|justify|align|place/i, "Flexbox & Grid"],
+    [/padding|margin/i, "Spacing"],
+    // Typography antes de Sizing: evita "font-size" e "line-height" casarem com Sizing
+    [/font|letter.spacing|line.clamp|line.height|list.style|text.|vertical.align|whitespace|word.break|hyphens|content/i, "Typography"],
+    [/width|height|inline.size|block.size|size/i, "Sizing"],
+    [/background|gradient/i, "Backgrounds"],
     [/box.shadow|text.shadow|opacity|mix.blend|background.blend/i, "Effects"],
     [/mask/i, "Masks"],
     [/backdrop/i, "Backdrop Filters"],
     [/filter|blur|brightness|contrast|drop.shadow|grayscale|hue.rotate|invert|saturate|sepia/i, "Filters"],
-    [/border.collapse|border.spacing|table.layout|caption/i, "Tables"],
     [/transition|animation|backface|perspective/i, "Transitions & Animation"],
     [/rotate|scale|skew|transform|translate|zoom/i, "Transforms"],
     [/accent|appearance|caret|color.scheme|cursor|field.sizing|pointer.events|resize|scroll|touch.action|user.select|will.change/i, "Interactivity"],

@@ -1,13 +1,18 @@
 #!/usr/bin/env node
 /**
  * CLI para crawl manual da documentação do Tailwind CSS.
- * 
+ *
  * Uso:
  *   npm run crawl          → crawl completo de todas as URLs
  *   npm run crawl:check    → só verifica se há atualização
  */
-import { crawlAll, getLatestCommitSha, loadUrls } from "./crawler.js";
-import { getMeta, getPageCount } from "./db.js";
+import {
+  crawlAll,
+  getLatestCommitSha,
+  inferSection,
+  loadUrls,
+} from "./crawler.js";
+import { fixAllSections, getMeta, getPageCount } from "./db.js";
 
 const command = process.argv[2] ?? "crawl";
 
@@ -27,8 +32,21 @@ async function main() {
     } else if (remoteSha === cachedSha && count > 0) {
       console.log("✅ Cache está atualizado.");
     } else {
-      console.log("🔄 Há atualizações. Execute `npm run crawl` para atualizar.");
+      console.log(
+        "🔄 Há atualizações. Execute `npm run crawl` para atualizar.",
+      );
     }
+    return;
+  }
+
+  if (command === "fix-sections") {
+    console.log("🔧 Reclassificando seções no cache (sem re-crawl)...\n");
+    const updated = await fixAllSections(inferSection);
+    const total = await getPageCount();
+    console.log(
+      `✅ Concluído: ${updated} página(s) corrigida(s) de ${total} no cache.`,
+    );
+    if (updated === 0) console.log("   Nenhuma seção precisava de correção.");
     return;
   }
 
@@ -47,8 +65,11 @@ async function main() {
       if (failed) fail++;
       else ok++;
       const pct = Math.round((done / total) * 100);
-      const bar = "█".repeat(Math.floor(pct / 5)) + "░".repeat(20 - Math.floor(pct / 5));
-      process.stdout.write(`\r[${bar}] ${pct}% (${done}/${total}) ${failed ? "❌" : "✅"} ${slug.slice(0, 40).padEnd(40)}`);
+      const bar =
+        "█".repeat(Math.floor(pct / 5)) + "░".repeat(20 - Math.floor(pct / 5));
+      process.stdout.write(
+        `\r[${bar}] ${pct}% (${done}/${total}) ${failed ? "❌" : "✅"} ${slug.slice(0, 40).padEnd(40)}`,
+      );
     },
   });
 
